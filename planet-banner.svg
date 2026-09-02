@@ -120,11 +120,11 @@
     <g fill="#aeb4bd"><rect x="254.4" y="121.3" width="7.2" height="1.4"/><rect x="257.3" y="118.4" width="1.4" height="7.2"/><animate attributeName="opacity" values="0.6;1;0.6" dur="4.1s" repeatCount="indefinite"/></g>
   </g>
   <g>
-    <ellipse cx="445" cy="140" rx="64" ry="18" fill="none" stroke="#4a5058" stroke-width="1" opacity="0.45"/>
-    <ellipse cx="445" cy="140" rx="96" ry="27" fill="none" stroke="#4a5058" stroke-width="1" opacity="0.45"/>
-    <ellipse cx="445" cy="140" rx="130" ry="37" fill="none" stroke="#4a5058" stroke-width="1" opacity="0.45"/>
-    <ellipse cx="445" cy="140" rx="168" ry="48" fill="none" stroke="#4a5058" stroke-width="1" opacity="0.45"/>
-    <ellipse cx="445" cy="140" rx="206" ry="58" fill="none" stroke="#4a5058" stroke-width="1" opacity="0.45"/>
+    <ellipse cx="445" cy="140" rx="64" ry="18" fill="none" stroke="#9aa4b2" stroke-width="1" opacity="0.70"/>
+    <ellipse cx="445" cy="140" rx="96" ry="27" fill="none" stroke="#7d8794" stroke-width="1" opacity="0.60"/>
+    <ellipse cx="445" cy="140" rx="130" ry="37" fill="none" stroke="#646d7a" stroke-width="1" opacity="0.50"/>
+    <ellipse cx="445" cy="140" rx="168" ry="48" fill="none" stroke="#525a66" stroke-width="1" opacity="0.40"/>
+    <ellipse cx="445" cy="140" rx="206" ry="58" fill="none" stroke="#434a55" stroke-width="1" opacity="0.30"/>
     <circle cx="445" cy="140" r="60" fill="url(#sunglow)"><animate attributeName="r" values="56;64;56" dur="5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;1;0.7" dur="5s" repeatCount="indefinite"/></circle>
     <circle cx="445" cy="140" r="38" fill="url(#sunbody)"/>
     <ellipse cx="437" cy="135" rx="13" ry="7" fill="#cbd3df" opacity="0.3"/>
