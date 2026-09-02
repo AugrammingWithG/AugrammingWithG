@@ -20,11 +20,7 @@
 <h2 align="center">📊 &nbsp;GitHub Stats</h2>
 
 <p align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=AugrammingWithG&show_icons=true&count_private=true&hide_border=true&bg_color=1b1d22&title_color=b3b3b4&icon_color=868c94&text_color=8c8986" alt="stats" />
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=AugrammingWithG&layout=compact&hide_border=true&bg_color=1b1d22&title_color=b3b3b4&text_color=8c8986" alt="top langs" />
-</p>
-<p align="center">
-  <img src="https://streak-stats.demolab.com?user=AugrammingWithG&hide_border=true&background=1b1d22&stroke=767676&ring=b3b3b4&fire=868c94&currStreakLabel=868c94&sideLabels=8c8986&currStreakNum=b3b3b4&sideNums=b3b3b4&dates=767676" alt="streak" />
+  <img src="statcard-preview.svg" alt="GitHub stats card" width="100%" />
 </p>
 
 <p align="center">
