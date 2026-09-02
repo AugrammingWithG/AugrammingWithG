@@ -194,54 +194,54 @@ def build_svg(total_contrib, since_date, current_len, current_range, longest_len
   <rect x="0" y="0" width="720" height="760" fill="#000000"/>
 
   <text x="40" y="62" font-family="'Arial Black','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="32" font-weight="800" letter-spacing="0.5" fill="#FFFFFF">CONTRIBUTION FINGERPRINT</text>
-  <line x1="40" y1="92" x2="680" y2="92" stroke="#2A2A30" stroke-width="1"/>
+  <line x1="40" y1="92" x2="680" y2="92" stroke="#2A2A2E" stroke-width="1"/>
 
   <g transform="translate(40,132)">
-    <circle cx="8" cy="0" r="8" fill="#B18CF5"/>
-    <text x="26" y="5" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#E7E5EE">You</text>
+    <circle cx="8" cy="0" r="8" fill="#CFD0D4"/>
+    <text x="26" y="5" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="16" fill="#E6E6E9">You</text>
   </g>
-  <text x="40" y="166" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="11.5" fill="#6E6C78">{GH_LOGIN} · {since_str} – Present</text>
+  <text x="40" y="166" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="11.5" fill="#6E6E76">{GH_LOGIN} · {since_str} – Present</text>
 
   <g transform="translate(360,468)">
-    <circle cx="0" cy="0" r="47.5" fill="none" stroke="#333338" stroke-width="1" stroke-dasharray="3 4"/>
-    <circle cx="0" cy="0" r="95" fill="none" stroke="#333338" stroke-width="1" stroke-dasharray="3 4"/>
-    <circle cx="0" cy="0" r="142.5" fill="none" stroke="#333338" stroke-width="1" stroke-dasharray="3 4"/>
-    <circle cx="0" cy="0" r="190" fill="none" stroke="#3A3A40" stroke-width="1" stroke-dasharray="3 4"/>
+    <circle cx="0" cy="0" r="47.5" fill="none" stroke="#2E2E32" stroke-width="1" stroke-dasharray="3 4"/>
+    <circle cx="0" cy="0" r="95" fill="none" stroke="#2E2E32" stroke-width="1" stroke-dasharray="3 4"/>
+    <circle cx="0" cy="0" r="142.5" fill="none" stroke="#2E2E32" stroke-width="1" stroke-dasharray="3 4"/>
+    <circle cx="0" cy="0" r="190" fill="none" stroke="#3A3A3E" stroke-width="1" stroke-dasharray="3 4"/>
 
-    <line x1="0" y1="0" x2="0" y2="-190" stroke="#333338" stroke-width="1" stroke-dasharray="3 4"/>
-    <line x1="0" y1="0" x2="164.5" y2="95" stroke="#333338" stroke-width="1" stroke-dasharray="3 4"/>
-    <line x1="0" y1="0" x2="-164.5" y2="95" stroke="#333338" stroke-width="1" stroke-dasharray="3 4"/>
+    <line x1="0" y1="0" x2="0" y2="-190" stroke="#2E2E32" stroke-width="1" stroke-dasharray="3 4"/>
+    <line x1="0" y1="0" x2="164.5" y2="95" stroke="#2E2E32" stroke-width="1" stroke-dasharray="3 4"/>
+    <line x1="0" y1="0" x2="-164.5" y2="95" stroke="#2E2E32" stroke-width="1" stroke-dasharray="3 4"/>
 
-    <path d="M-5,0 L5,0 M0,-5 L0,5" stroke="#55555C" stroke-width="1"/>
+    <path d="M-5,0 L5,0 M0,-5 L0,5" stroke="#55555A" stroke-width="1"/>
 
-    <polygon points="{points}" fill="#B18CF5" fill-opacity="0.28" stroke="#B18CF5" stroke-width="2" stroke-linejoin="round"/>
+    <polygon points="{points}" fill="#CFD0D4" fill-opacity="0.28" stroke="#CFD0D4" stroke-width="2" stroke-linejoin="round"/>
 
-    <g fill="#D9CBFB" filter="url(#dotGlow)">
+    <g fill="#FFFFFF" filter="url(#dotGlow)">
       <circle cx="{v0[0]:.1f}" cy="{v0[1]:.1f}" r="5"/>
       <circle cx="{v1[0]:.1f}" cy="{v1[1]:.1f}" r="5"/>
       <circle cx="{v2[0]:.1f}" cy="{v2[1]:.1f}" r="5"/>
     </g>
 
     <g text-anchor="middle">
-      <text x="0" y="-214" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="15" fill="#9B99A4">Total Contributions</text>
+      <text x="0" y="-214" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="15" fill="#9B9BA2">Total Contributions</text>
       <text x="0" y="-186" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#FFFFFF">{total_contrib}</text>
-      <text x="0" y="-166" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="11" fill="#6E6C78">since {since_str}</text>
+      <text x="0" y="-166" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="11" fill="#6E6E76">since {since_str}</text>
     </g>
 
     <g text-anchor="start">
-      <text x="182" y="118" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="15" fill="#9B99A4">Longest Streak</text>
+      <text x="182" y="118" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="15" fill="#9B9BA2">Longest Streak</text>
       <text x="182" y="146" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#FFFFFF">{longest_len}</text>
-      <text x="182" y="168" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="11" fill="#6E6C78">{longest_range_str}</text>
+      <text x="182" y="168" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="11" fill="#6E6E76">{longest_range_str}</text>
     </g>
 
     <g text-anchor="end">
-      <text x="-182" y="118" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="15" fill="#9B99A4">Current Streak</text>
+      <text x="-182" y="118" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="15" fill="#9B9BA2">Current Streak</text>
       <text x="-182" y="146" font-family="-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="24" font-weight="700" fill="#FFFFFF">{current_len}</text>
-      <text x="-182" y="168" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="11" fill="#6E6C78">{current_range_str}</text>
+      <text x="-182" y="168" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="11" fill="#6E6E76">{current_range_str}</text>
     </g>
   </g>
 
-  <text x="40" y="732" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="10.5" fill="#4E4C56">axes scaled to {int(CONTRIB_MAX_AXIS)} contributions / {int(STREAK_MAX_AXIS)}-day streaks · updated {datetime.date.today().isoformat()}</text>
+  <text x="40" y="732" font-family="ui-monospace,'SF Mono','Cascadia Code','Roboto Mono',monospace" font-size="10.5" fill="#4E4E54">axes scaled to {int(CONTRIB_MAX_AXIS)} contributions / {int(STREAK_MAX_AXIS)}-day streaks · updated {datetime.date.today().isoformat()}</text>
 </svg>
 """
     return svg
