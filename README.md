@@ -3,6 +3,11 @@
 </p>
 
 <p align="center">
+  Full-stack web developer — React, Node & TypeScript. I build web apps,
+  clean UIs, and well-tested code.
+</p>
+
+<p align="center">
   <img src="tech-stack.svg" alt="tech stack" width="100%" />
 </p>
 
