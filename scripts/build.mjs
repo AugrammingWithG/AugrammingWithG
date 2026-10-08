@@ -159,7 +159,7 @@ function ground(h, { gold, teal, seed, count = 90, twinkle = 0, scrim = 0 }) {
 const MOTION = `
   .tw{animation:tw 5.5s ease-in-out infinite}
   @keyframes tw{0%,100%{opacity:.15}50%{opacity:.9}}
-  @media (prefers-reduced-motion:reduce){*{animation-play-state:paused!important}.tw,.sheen,.st{animation:none!important}}`;
+  @media (prefers-reduced-motion:reduce){*{animation-play-state:paused!important}.tw,.sheen,.st *{animation:none!important}}`;
 
 function svg(h, label, defs, css, body) {
   return (
@@ -420,8 +420,13 @@ function activity(data) {
 
   const rnd = rng(71);
   const css = `
-  .st{transform-box:fill-box;transform-origin:center;animation:st ease-in-out infinite}
-  @keyframes st{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.72)}}`;
+  .st *{animation:linear infinite;animation-duration:var(--d);animation-delay:var(--t)}
+  .co{opacity:var(--o);animation-name:co}
+  .ha{opacity:.05;animation-name:ha}
+  .gl{opacity:0;transform-box:fill-box;transform-origin:center;animation-name:gl}
+  @keyframes co{0%,64%,100%{opacity:var(--o)}78%{opacity:1}}
+  @keyframes ha{0%,62%,100%{opacity:.05}78%{opacity:.45}}
+  @keyframes gl{0%,64%{opacity:0;transform:scale(.15) rotate(-18deg)}78%{opacity:1;transform:scale(1) rotate(0deg)}94%,100%{opacity:0;transform:scale(.15) rotate(14deg)}}`;
   let out = "";
   let lastMonth = -1;
   let lastLabelAt = -9;
@@ -445,13 +450,21 @@ function activity(data) {
       /* square-root scale: one commit is already a visible star */
       const k = Math.sqrt(day.count / max);
       const r = n(1.9 + k * 3.4);
-      /* Every day with a commit twinkles, each on its own clock so the sky
-         never pulses in step. */
-      const dur = n(2.6 + rnd() * 3.4);
+      /* Every day with a commit is a star that scintillates: it rests a
+         little dim, then flares — the core brightens, a halo opens and a
+         four-point glint flashes across it. Each star keeps its own clock,
+         so the sky never pulses in step; busier days flare bigger. */
+      const dur = n(3.2 + rnd() * 4.2);
+      const L = n(r * 2.3 + 4.5);
+      const q = n(L * 0.14);
+      const glint =
+        `M${cx} ${n(cy - L)}Q${n(cx + q)} ${n(cy - q)} ${n(cx + L)} ${cy}Q${n(cx + q)} ${n(cy + q)} ${cx} ${n(cy + L)}` +
+        `Q${n(cx - q)} ${n(cy + q)} ${n(cx - L)} ${cy}Q${n(cx - q)} ${n(cy - q)} ${cx} ${n(cy - L)}Z`;
       out +=
-        `<g class="st" style="animation-duration:${dur}s;animation-delay:-${n(rnd() * dur)}s">` +
-        (k > 0.6 ? `<circle cx="${cx}" cy="${cy}" r="${n(r + 3.2)}" fill="${C.gold}" opacity="0.2"/>` : "") +
-        `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${k > 0.6 ? C.goldSoft : C.gold}" opacity="${n(0.5 + k * 0.5)}"/></g>`;
+        `<g class="st" style="--d:${dur}s;--t:-${n(rnd() * dur)}s;--o:${n(0.42 + k * 0.4)}">` +
+        `<circle class="ha" cx="${cx}" cy="${cy}" r="${n(Math.min(r + 3.2, 7.4))}" fill="${C.gold}"/>` +
+        `<circle class="co" cx="${cx}" cy="${cy}" r="${r}" fill="${k > 0.6 ? C.goldSoft : C.gold}"/>` +
+        `<path class="gl" d="${glint}" fill="#fff3d2"/></g>`;
     });
   });
 
