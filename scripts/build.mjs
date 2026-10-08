@@ -159,7 +159,7 @@ function ground(h, { gold, teal, seed, count = 90, twinkle = 0, scrim = 0 }) {
 const MOTION = `
   .tw{animation:tw 5.5s ease-in-out infinite}
   @keyframes tw{0%,100%{opacity:.15}50%{opacity:.9}}
-  @media (prefers-reduced-motion:reduce){*{animation-play-state:paused!important}.tw,.sheen{animation:none!important}}`;
+  @media (prefers-reduced-motion:reduce){*{animation-play-state:paused!important}.tw,.sheen,.st{animation:none!important}}`;
 
 function svg(h, label, defs, css, body) {
   return (
@@ -371,14 +371,12 @@ function work() {
 }
 
 /* ==========================================================================
-   SKILLS — one sky, four constellations. A ring instead of a star is a
-   skill she is still learning.
+   SKILLS — one sky, four constellations.
    ========================================================================== */
 function skills() {
-  const H = 468;
+  const H = 432;
   const g = ground(H, { gold: [-40, 440, 420, 0.3], teal: [700, 200, 540, 0.55], seed: 37, count: 60, scrim: 0.34 });
   const all = SKILL_GROUPS.flatMap((x) => x.skills);
-  const learning = all.filter((s) => s[1]).length;
 
   const COLW = 214;
   const STEP = 35;
@@ -392,25 +390,17 @@ function skills() {
       146 + j * STEP,
     ]);
     out += `<polyline points="${pts.map((p) => p.join(",")).join(" ")}" fill="none" stroke="${C.goldSoft}" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="0.1 4.6" stroke-linecap="round"/>`;
-    grp.skills.forEach(([label, isLearning], j) => {
+    grp.skills.forEach((label, j) => {
       const [x, y] = pts[j];
-      out += isLearning
-        ? `<circle cx="${x}" cy="${y}" r="4" fill="${C.bg}" stroke="${C.gold}" stroke-width="1.4"/>`
-        : `<circle cx="${x}" cy="${y}" r="7" fill="${C.goldSoft}" opacity="0.14"/><circle cx="${x}" cy="${y}" r="3.2" fill="${C.goldSoft}"/>`;
-      out += text(F.d5, label, x + 15, y + 5, 15, { fill: isLearning ? C.inkSoft : C.ink });
+      out += `<circle cx="${x}" cy="${y}" r="7" fill="${C.goldSoft}" opacity="0.14"/><circle cx="${x}" cy="${y}" r="3.2" fill="${C.goldSoft}"/>`;
+      out += text(F.d5, label, x + 15, y + 5, 15, { fill: C.ink });
     });
   });
 
-  /* the key, where the site keeps its hint */
-  const ky = H - 30;
-  out +=
-    `<circle cx="${PAD + 5}" cy="${ky - 4}" r="4" fill="${C.bg}" stroke="${C.gold}" stroke-width="1.4"/>` +
-    hud("Still learning", PAD + 18, ky, { fill: C.inkSoft, ls: 0.12 });
-
-  const body = g.body + header("Skills", [`${all.length} skills`, `${learning} still learning`]) + out;
+  const body = g.body + header("Skills", [`${all.length} skills`]) + out;
   const label =
     "Skills. " +
-    SKILL_GROUPS.map((grp) => `${grp.name}: ${grp.skills.map(([l, lr]) => (lr ? `${l} (still learning)` : l)).join(", ")}`).join(". ") +
+    SKILL_GROUPS.map((grp) => `${grp.name}: ${grp.skills.join(", ")}`).join(". ") +
     ".";
   return svg(H, label, g.defs, "", body);
 }
@@ -428,6 +418,10 @@ function activity(data) {
   const max = Math.max(1, ...weeks.flat().map((d) => d.count));
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+  const rnd = rng(71);
+  const css = `
+  .st{transform-box:fill-box;transform-origin:center;animation:st ease-in-out infinite}
+  @keyframes st{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.72)}}`;
   let out = "";
   let lastMonth = -1;
   let lastLabelAt = -9;
@@ -451,8 +445,13 @@ function activity(data) {
       /* square-root scale: one commit is already a visible star */
       const k = Math.sqrt(day.count / max);
       const r = n(1.9 + k * 3.4);
-      if (k > 0.6) out += `<circle cx="${cx}" cy="${cy}" r="${n(r + 3.2)}" fill="${C.gold}" opacity="0.2"/>`;
-      out += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${k > 0.6 ? C.goldSoft : C.gold}" opacity="${n(0.5 + k * 0.5)}"/>`;
+      /* Every day with a commit twinkles, each on its own clock so the sky
+         never pulses in step. */
+      const dur = n(2.6 + rnd() * 3.4);
+      out +=
+        `<g class="st" style="animation-duration:${dur}s;animation-delay:-${n(rnd() * dur)}s">` +
+        (k > 0.6 ? `<circle cx="${cx}" cy="${cy}" r="${n(r + 3.2)}" fill="${C.gold}" opacity="0.2"/>` : "") +
+        `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${k > 0.6 ? C.goldSoft : C.gold}" opacity="${n(0.5 + k * 0.5)}"/></g>`;
     });
   });
 
@@ -466,7 +465,7 @@ function activity(data) {
     hud(`On GitHub since ${data.since}`, W - PAD, y, { fill: C.ink3, ls: 0.12, anchor: "end" });
 
   const body = g.body + header("Activity", ["Last 12 months", `github.com/${LOGIN}`]) + out;
-  return svg(H, `Activity. ${total} contributions in the last year, on ${active} days. On GitHub since ${data.since}.`, g.defs, "", body);
+  return svg(H, `Activity. ${total} contributions in the last year, on ${active} days. On GitHub since ${data.since}.`, g.defs, css, body);
 }
 
 async function loadActivity() {
