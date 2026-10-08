@@ -1,0 +1,48 @@
+name: Build profile images
+
+on:
+  schedule:
+    - cron: "0 21 * * *"     # once a day, 05:00 in Baguio
+  workflow_dispatch: {}      # lets you trigger it manually from the Actions tab
+  push:
+    branches: [main]
+    paths:
+      - "scripts/**"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install
+        working-directory: scripts
+        run: npm ci
+
+      - name: Build the images (refetches the activity panel)
+        working-directory: scripts
+        env:
+          GH_LOGIN: AugrammingWithG
+          GH_TOKEN: ${{ secrets.FINGERPRINT_TOKEN || secrets.GITHUB_TOKEN }}
+        run: npm run build
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets scripts/activity.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: refresh profile images [skip ci]"
+            git push
+          fi
