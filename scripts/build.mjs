@@ -101,6 +101,15 @@ function wrap(f, str, size, max) {
   return lines;
 }
 
+/* A four-point glint centred on a star: the flash every twinkle ends in. */
+function glintPath(cx, cy, L) {
+  const q = n(L * 0.14);
+  return (
+    `M${cx} ${n(cy - L)}Q${n(cx + q)} ${n(cy - q)} ${n(cx + L)} ${cy}Q${n(cx + q)} ${n(cy + q)} ${cx} ${n(cy + L)}` +
+    `Q${n(cx - q)} ${n(cy + q)} ${n(cx - L)} ${cy}Q${n(cx - q)} ${n(cy - q)} ${cx} ${n(cy - L)}Z`
+  );
+}
+
 /* ---- the ground ---------------------------------------------------------- */
 function rng(seed) {
   let a = seed >>> 0;
@@ -159,7 +168,7 @@ function ground(h, { gold, teal, seed, count = 90, twinkle = 0, scrim = 0 }) {
 const MOTION = `
   .tw{animation:tw 5.5s ease-in-out infinite}
   @keyframes tw{0%,100%{opacity:.15}50%{opacity:.9}}
-  @media (prefers-reduced-motion:reduce){*{animation-play-state:paused!important}.tw,.sheen,.st *{animation:none!important}}`;
+  @media (prefers-reduced-motion:reduce){*{animation-play-state:paused!important}.tw,.sheen,.st *,.sk *,.bl{animation:none!important}}`;
 
 function svg(h, label, defs, css, body) {
   return (
@@ -296,12 +305,19 @@ function work() {
   const CY = 226;
   const TILT = 0.5;
   const GOLDEN = Math.PI * (3 - Math.sqrt(5));
+  /* THE TURN. Every BEAT seconds the next project lights: its screenshot
+     comes up from the resting tone into full colour with a brass edge (the
+     site's hover), and its planet rings at the same moment, so the orbit and
+     the tiles read as one legend. */
+  const BEAT = 3;
   let rings = "";
   let planets = "";
   let css = `
   .orb,.orb *{transform-box:view-box;transform-origin:0 0}
   .spin{animation:spin linear infinite}.unspin{animation:spin linear infinite reverse}
-  @keyframes spin{to{transform:rotate(360deg)}}`;
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .bl{opacity:0;animation:bl ${PROJECTS.length * BEAT}s linear infinite;animation-delay:var(--t)}
+  @keyframes bl{0%,12.5%,100%{opacity:0}2.5%,10%{opacity:1}}`;
   PROJECTS.forEach((p, i) => {
     const r = 46 + i * 18;
     const period = n(48 * Math.pow(r / 46, 0.7));
@@ -313,7 +329,9 @@ function work() {
        ellipse, so the planet stays round. */
     planets +=
       `<g transform="scale(1 ${TILT})"><g class="spin" ${t}><g transform="translate(${r} 0)"><g class="unspin" ${t}>` +
-      `<g transform="scale(1 ${n(1 / TILT)})"><circle r="7.5" fill="${p.accent}"/><circle r="7.5" fill="url(#shade)"/></g>` +
+      `<g transform="scale(1 ${n(1 / TILT)})">` +
+      `<g class="bl" style="--t:${i * BEAT}s"><circle r="15" fill="${p.accent}" opacity="0.3"/><circle r="11.5" fill="none" stroke="${C.goldSoft}" stroke-width="1.3"/></g>` +
+      `<circle r="7.5" fill="${p.accent}"/><circle r="7.5" fill="url(#shade)"/></g>` +
       `</g></g></g></g>`;
   });
   const orbit =
@@ -336,9 +354,12 @@ function work() {
     const y = 84 + Math.floor(i / 4) * 150;
     const img = fs.readFileSync(path.join(HERE, "thumbs", `${p.id}.jpg`)).toString("base64");
     clips += `<clipPath id="t${i}"><rect x="${x}" y="${y}" width="${TW}" height="${TH}" rx="3"/></clipPath>`;
+    clips += `<image id="i${i}" x="${x}" y="${y}" width="${TW}" height="${TH}" preserveAspectRatio="xMidYMid slice" xlink:href="data:image/jpeg;base64,${img}"/>`;
+    const edge = `x="${x + 0.5}" y="${y + 0.5}" width="${TW - 1}" height="${TH - 1}" rx="3" fill="none"`;
     tiles +=
-      `<image x="${x}" y="${y}" width="${TW}" height="${TH}" preserveAspectRatio="xMidYMid slice" clip-path="url(#t${i})" filter="url(#tone)" xlink:href="data:image/jpeg;base64,${img}"/>` +
-      `<rect x="${x + 0.5}" y="${y + 0.5}" width="${TW - 1}" height="${TH - 1}" rx="3" fill="none" stroke="rgba(255,255,255,0.14)"/>`;
+      `<use xlink:href="#i${i}" clip-path="url(#t${i})" filter="url(#tone)"/>` +
+      `<rect ${edge} stroke="rgba(255,255,255,0.14)"/>` +
+      `<g class="bl" style="--t:${i * BEAT}s"><use xlink:href="#i${i}" clip-path="url(#t${i})"/><rect ${edge} stroke="${C.brassLt}" stroke-width="1.4"/></g>`;
     const lines = wrap(F.d6, p.name, 13.5, TW);
     lines.forEach((l, j) => {
       tiles += text(F.d6, l, x, y + TH + 21 + j * 16.5, 13.5, { fill: C.bone });
@@ -378,6 +399,15 @@ function skills() {
   const g = ground(H, { gold: [-40, 440, 420, 0.3], teal: [700, 200, 540, 0.55], seed: 37, count: 60, scrim: 0.34 });
   const all = SKILL_GROUPS.flatMap((x) => x.skills);
 
+  const CYCLE = 11;
+  const css = `
+  .sk *{animation:linear infinite ${CYCLE}s;animation-delay:var(--t)}
+  .sg{opacity:.5;animation-name:sg}
+  .ha{opacity:.14;animation-name:ha}
+  .gl{opacity:0;transform-box:fill-box;transform-origin:center;animation-name:gl}
+  @keyframes sg{0%,13%,100%{opacity:.5}5%{opacity:1}}
+  @keyframes ha{0%,11%,100%{opacity:.14}4.5%{opacity:.6}}
+  @keyframes gl{0%{opacity:0;transform:scale(.15) rotate(-18deg)}4.5%{opacity:1;transform:scale(1) rotate(0deg)}10%,100%{opacity:0;transform:scale(.15) rotate(14deg)}}`;
   const COLW = 214;
   const STEP = 35;
   let out = "";
@@ -389,20 +419,30 @@ function skills() {
       n(x0 + 20 + 15 * Math.sin(j * 1.05 + gi * 1.9) + 5 * Math.sin(j * 2.3 + gi)),
       146 + j * STEP,
     ]);
-    out += `<polyline points="${pts.map((p) => p.join(",")).join(" ")}" fill="none" stroke="${C.goldSoft}" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="0.1 4.6" stroke-linecap="round"/>`;
+    /* THE TRACE. Every CYCLE seconds a flare runs down the figure: each star
+       glints in turn and the stretch of line after it brightens, so the
+       constellation is drawn again in front of you. The four groups start a
+       few seconds apart. */
+    const at = (j) => n(gi * 2.6 + j * 0.32);
+    pts.slice(0, -1).forEach(([x1, y1], j) => {
+      const [x2, y2] = pts[j + 1];
+      out += `<line class="sg" style="--t:${n(at(j) + 0.16)}s" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${C.goldSoft}" stroke-width="1.5" stroke-dasharray="0.1 4.6" stroke-linecap="round"/>`;
+    });
     grp.skills.forEach((label, j) => {
       const [x, y] = pts[j];
-      out += `<circle cx="${x}" cy="${y}" r="7" fill="${C.goldSoft}" opacity="0.14"/><circle cx="${x}" cy="${y}" r="3.2" fill="${C.goldSoft}"/>`;
+      out +=
+        `<g style="--t:${at(j)}s"><circle class="ha" cx="${x}" cy="${y}" r="7" fill="${C.goldSoft}"/><circle cx="${x}" cy="${y}" r="3.2" fill="${C.goldSoft}"/>` +
+        `<path class="gl" d="${glintPath(x, y, 12)}" fill="#fff3d2"/></g>`;
       out += text(F.d5, label, x + 15, y + 5, 15, { fill: C.ink });
     });
   });
 
-  const body = g.body + header("Skills", [`${all.length} skills`]) + out;
+  const body = g.body + header("Skills", [`${all.length} skills`]) + `<g class="sk">${out}</g>`;
   const label =
     "Skills. " +
     SKILL_GROUPS.map((grp) => `${grp.name}: ${grp.skills.join(", ")}`).join(". ") +
     ".";
-  return svg(H, label, g.defs, "", body);
+  return svg(H, label, g.defs, css, body);
 }
 
 /* ==========================================================================
@@ -456,10 +496,7 @@ function activity(data) {
          so the sky never pulses in step; busier days flare bigger. */
       const dur = n(3.2 + rnd() * 4.2);
       const L = n(r * 2.3 + 4.5);
-      const q = n(L * 0.14);
-      const glint =
-        `M${cx} ${n(cy - L)}Q${n(cx + q)} ${n(cy - q)} ${n(cx + L)} ${cy}Q${n(cx + q)} ${n(cy + q)} ${cx} ${n(cy + L)}` +
-        `Q${n(cx - q)} ${n(cy + q)} ${n(cx - L)} ${cy}Q${n(cx - q)} ${n(cy - q)} ${cx} ${n(cy - L)}Z`;
+      const glint = glintPath(cx, cy, L);
       out +=
         `<g class="st" style="--d:${dur}s;--t:-${n(rnd() * dur)}s;--o:${n(0.42 + k * 0.4)}">` +
         `<circle class="ha" cx="${cx}" cy="${cy}" r="${n(Math.min(r + 3.2, 7.4))}" fill="${C.gold}"/>` +
