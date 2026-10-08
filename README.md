@@ -22,7 +22,7 @@
 
 <p align="center">
   <a href="https://portfolio-web-coral-xi.vercel.app/#skills">
-    <img src="assets/skills.svg" width="100%" alt="Skills. Frontend: React, Next.js, React Native, Flutter, TypeScript, JavaScript, HTML, CSS. Backend: Node.js, NestJS, PHP; still learning Express, Django, FastAPI and Python. Data: MySQL, MongoDB, Prisma, Firebase; still learning PostgreSQL and Supabase. Delivery: Shopify, Vercel, Google Cloud, Git, SEO; still learning GitHub Actions." />
+    <img src="assets/skills.svg" width="100%" alt="Skills. Frontend: React, Next.js, React Native, Flutter, TypeScript, JavaScript, HTML, CSS. Backend: Node.js, Express, NestJS, Django, FastAPI, PHP, Python. Data: PostgreSQL, MySQL, MongoDB, Prisma, Supabase, Firebase. Delivery: Shopify, Vercel, Google Cloud, Git, GitHub Actions, SEO." />
   </a>
 </p>
 

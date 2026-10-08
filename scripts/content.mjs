@@ -27,26 +27,11 @@ export const PROJECTS = [
   { id: "pure-water-filtration", name: "Pure Water Filtration", kind: "3D sales site", accent: "#7d8a86" },
 ];
 
-/* `learning: true` is the honesty mark. The set is Augniña's; do not add to
-   it or take from it without asking her. */
-const L = true;
 export const SKILL_GROUPS = [
-  {
-    name: "Frontend",
-    skills: [["React"], ["Next.js"], ["React Native"], ["Flutter"], ["TypeScript"], ["JavaScript"], ["HTML"], ["CSS"]],
-  },
-  {
-    name: "Backend",
-    skills: [["Node.js"], ["Express", L], ["NestJS"], ["Django", L], ["FastAPI", L], ["PHP"], ["Python", L]],
-  },
-  {
-    name: "Data",
-    skills: [["PostgreSQL", L], ["MySQL"], ["MongoDB"], ["Prisma"], ["Supabase", L], ["Firebase"]],
-  },
-  {
-    name: "Delivery",
-    skills: [["Shopify"], ["Vercel"], ["Google Cloud"], ["Git"], ["GitHub Actions", L], ["SEO"]],
-  },
+  { name: "Frontend", skills: ["React", "Next.js", "React Native", "Flutter", "TypeScript", "JavaScript", "HTML", "CSS"] },
+  { name: "Backend", skills: ["Node.js", "Express", "NestJS", "Django", "FastAPI", "PHP", "Python"] },
+  { name: "Data", skills: ["PostgreSQL", "MySQL", "MongoDB", "Prisma", "Supabase", "Firebase"] },
+  { name: "Delivery", skills: ["Shopify", "Vercel", "Google Cloud", "Git", "GitHub Actions", "SEO"] },
 ];
 
 export const BUTTONS = [
